@@ -1,5 +1,4 @@
 #!/bin/python3
-import sys
 puzzle_input = """3-4 t: dttt
 5-7 l: llmlqmblllh
 3-10 g: gggxwxggggkgglklhhgg
@@ -1003,6 +1002,7 @@ puzzle_input = """3-4 t: dttt
 puzzle_input = [piece.split(":") for piece in puzzle_input.split("\n")]
 puzzle_input = {(f'{k} {puzzle_input.index([k,v])}'):v for k,v in puzzle_input}
 def find_correct_by_amount(puzzle_input):
+        """2.26 ms ± 211 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)"""
 	passwords_correct = 0
 	for k,v in puzzle_input.items():
 		amount = 0
@@ -1015,12 +1015,23 @@ def find_correct_by_amount(puzzle_input):
 			passwords_correct += 1
 	return passwords_correct
 def find_correct_by_place(puzzle_input):
+	"""1.22 ms ± 103 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)"""
 	passwords_correct = 0
 	for k,v in puzzle_input.items():
 		left_side,right_side,_ = k.split()
 		pos1,pos2 = [int(num) for num in left_side.split("-")]
 		if any(a := [v[pos1] == right_side, v[pos2] == right_side]) and not all(a):
 			passwords_correct += 1
+	return passwords_correct
+def find_correct_by_amount_optimized(puzzle_input):
+	"""1.1 ms ± 164 µs per loop (mean ± std. dev. of 7 runs, 1000 loops each)
+"""
+	passwords_correct = 0
+	for k,v in puzzle_input.items():
+		left_side,character,_ = k.split()
+		minimum,maximum = [int(num) for num in left_side.split("-")]
+		if v.count(character) in range(minimum, maximum+1):
+			passwords_correct += 1 
 	return passwords_correct
 print(find_correct_by_amount(puzzle_input))
 print(find_correct_by_place(puzzle_input))
