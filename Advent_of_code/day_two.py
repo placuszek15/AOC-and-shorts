@@ -1019,7 +1019,7 @@ def find_correct_by_place(puzzle_input):
 	for k,v in puzzle_input.items():
 		left_side,right_side,_ = k.split()
 		pos1,pos2 = [int(num) for num in left_side.split("-")]
-		if any([v[pos1] == right_side, v[pos2] == right_side]) and not all([v[pos1] == right_side, v[pos2] == right_side]):
+		if any(a := [v[pos1] == right_side, v[pos2] == right_side]) and not all(a):
 			passwords_correct += 1
 	return passwords_correct
 print(find_correct_by_amount(puzzle_input))
