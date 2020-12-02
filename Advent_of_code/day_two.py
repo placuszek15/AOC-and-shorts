@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/python3
 import sys
 puzzle_input = """3-4 t: dttt
 5-7 l: llmlqmblllh
